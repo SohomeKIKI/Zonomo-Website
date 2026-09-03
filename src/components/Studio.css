@@ -1,0 +1,263 @@
+.studio-section {
+  padding: 10vw 5vw 5vw;
+  background: var(--color-light);
+  color: var(--color-dark);
+  position: relative;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.studio-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8vw;
+}
+
+.studio-header-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 500px;
+}
+
+.studio-desc {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+/* App Store Buttons */
+.app-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.app-btn {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-dark);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.app-btn:hover {
+  background-color: var(--color-light);
+  color: var(--color-dark);
+  border-color: var(--color-dark);
+}
+
+.btn-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.btn-small {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+}
+
+.btn-large {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+/* Ticker */
+.ticker-container {
+  width: 100%;
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 1rem 0;
+  margin-bottom: 8vw;
+}
+
+.ticker-wrapper {
+  display: flex;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.ticker-item {
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0 3rem;
+  display: inline-block;
+}
+
+/* Stats */
+.stats-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12vw;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.stat-number {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(3rem, 6vw, 6rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.stat-label {
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.6;
+}
+
+/* Testimonial Marquee */
+.reviews-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow: hidden;
+  padding: 2rem 0;
+}
+
+.reviews-fade-left, .reviews-fade-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 20%;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.reviews-fade-left {
+  left: 0;
+  background: linear-gradient(to right, var(--color-light), transparent);
+}
+
+.reviews-fade-right {
+  right: 0;
+  background: linear-gradient(to left, var(--color-light), transparent);
+}
+
+.marquee-wrapper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.marquee-track {
+  display: flex;
+  width: fit-content;
+  gap: 1rem;
+}
+
+.review-card {
+  width: 320px;
+  background-color: transparent;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.review-card:hover {
+  background-color: rgba(0,0,0,0.03);
+  border-color: rgba(0,0,0,0.3);
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.review-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.review-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.review-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-dark);
+}
+
+.review-username {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-dark);
+  opacity: 0.6;
+}
+
+.review-body {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-dark);
+  opacity: 0.8;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .studio-section {
+    padding: 20vw 5vw 10vw;
+  }
+  .studio-header {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .section-title {
+    font-size: clamp(2.5rem, 10vw, 4rem);
+  }
+  .app-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  .app-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .stats-container {
+    flex-direction: column;
+    gap: 3rem;
+    margin-bottom: 20vw;
+  }
+  .stat-number {
+    font-size: clamp(2.5rem, 12vw, 4rem);
+  }
+  .review-card {
+    width: 260px;
+    padding: 1.2rem;
+  }
+}
