@@ -1,16 +1,24 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Play } from 'lucide-react';
 import './Hero.css';
 
+import vid1 from '../assets/videos/1.mp4';
+import vid2 from '../assets/videos/2.mp4';
+import vid3 from '../assets/videos/3.mp4';
+import vid4 from '../assets/videos/4.mp4';
+
+const videos = [vid1, vid2, vid3, vid4];
+
 gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const containerRef = useRef(null);
-  const textRef = useRef(null);
   const playRef = useRef(null);
   const zonomoRef = useRef(null);
+  const videoPlayerRef = useRef(null);
   const charsRef = useRef([]);
   const charsHoverRef = useRef([]);
   const videoSectionRef = useRef(null);
@@ -27,9 +35,9 @@ const Hero = () => {
       );
 
       gsap.fromTo(
-        [playRef.current, textRef.current],
+        playRef.current,
         { y: 100, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.5, stagger: 0.2, ease: "power4.out", delay: 0.5 }
+        { y: 0, opacity: 1, duration: 1.5, ease: "power4.out", delay: 0.5 }
       );
 
       // Video Expand Animation
@@ -57,6 +65,12 @@ const Hero = () => {
     return () => ctx.revert();
   }, []);
 
+  useEffect(() => {
+    if (videoPlayerRef.current) {
+      videoPlayerRef.current.play().catch(e => console.log(e));
+    }
+  }, [currentVideoIndex]);
+
   const handleMouseEnter = () => {
     gsap.to(charsRef.current, { y: "-100%", rotationX: 90, opacity: 0, stagger: 0.04, duration: 0.5, ease: "power3.inOut" });
     gsap.to(charsHoverRef.current, { y: "0%", rotationX: 0, opacity: 1, stagger: 0.04, duration: 0.5, ease: "power3.inOut" });
@@ -65,6 +79,10 @@ const Hero = () => {
   const handleMouseLeave = () => {
     gsap.to(charsRef.current, { y: "0%", rotationX: 0, opacity: 1, stagger: 0.04, duration: 0.5, ease: "power3.inOut" });
     gsap.to(charsHoverRef.current, { y: "100%", rotationX: -90, opacity: 0, stagger: 0.04, duration: 0.5, ease: "power3.inOut" });
+  };
+
+  const handleVideoEnd = () => {
+    setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videos.length);
   };
 
   return (
@@ -94,11 +112,12 @@ const Hero = () => {
       <section className="video-section" ref={videoSectionRef}>
         <div className="video-expand-wrapper" ref={videoWrapperRef}>
           <video 
-            src="https://www.w3schools.com/html/mov_bbb.mp4" 
+            ref={videoPlayerRef}
+            src={videos[currentVideoIndex]} 
             autoPlay 
-            loop 
             muted 
             playsInline
+            onEnded={handleVideoEnd}
             className="background-video"
           />
         </div>
@@ -108,10 +127,6 @@ const Hero = () => {
               <Play fill="currentColor" size={24} />
             </div>
           </button>
-          <div className="hero-text-wrapper" ref={textRef}>
-            <h2 className="hero-text">Watch Showreel</h2>
-            <p className="hero-subtext">2015-26</p>
-          </div>
         </div>
       </section>
     </div>
