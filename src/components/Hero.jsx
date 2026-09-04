@@ -14,11 +14,14 @@ const videos = [vid1, vid2, vid3, vid4];
 gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
-  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [p1Index, setP1Index] = useState(0);
+  const [p2Index, setP2Index] = useState(1);
+  const [activePlayer, setActivePlayer] = useState(1);
   const containerRef = useRef(null);
   const playRef = useRef(null);
   const zonomoRef = useRef(null);
-  const videoPlayerRef = useRef(null);
+  const player1Ref = useRef(null);
+  const player2Ref = useRef(null);
   const charsRef = useRef([]);
   const charsHoverRef = useRef([]);
   const videoSectionRef = useRef(null);
@@ -66,10 +69,12 @@ const Hero = () => {
   }, []);
 
   useEffect(() => {
-    if (videoPlayerRef.current) {
-      videoPlayerRef.current.play().catch(e => console.log(e));
+    if (activePlayer === 1 && player1Ref.current) {
+      player1Ref.current.play().catch(e => console.log(e));
+    } else if (activePlayer === 2 && player2Ref.current) {
+      player2Ref.current.play().catch(e => console.log(e));
     }
-  }, [currentVideoIndex]);
+  }, [activePlayer]);
 
   const handleMouseEnter = () => {
     gsap.to(charsRef.current, { y: "-100%", rotationX: 90, opacity: 0, stagger: 0.04, duration: 0.5, ease: "power3.inOut" });
@@ -82,7 +87,13 @@ const Hero = () => {
   };
 
   const handleVideoEnd = () => {
-    setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videos.length);
+    if (activePlayer === 1) {
+      setActivePlayer(2);
+      setP1Index((p2Index + 1) % videos.length);
+    } else {
+      setActivePlayer(1);
+      setP2Index((p1Index + 1) % videos.length);
+    }
   };
 
   return (
@@ -112,13 +123,34 @@ const Hero = () => {
       <section className="video-section" ref={videoSectionRef}>
         <div className="video-expand-wrapper" ref={videoWrapperRef}>
           <video 
-            ref={videoPlayerRef}
-            src={videos[currentVideoIndex]} 
-            autoPlay 
+            ref={player1Ref}
+            src={videos[p1Index]} 
+            autoPlay={activePlayer === 1}
             muted 
             playsInline
-            onEnded={handleVideoEnd}
+            onEnded={activePlayer === 1 ? handleVideoEnd : undefined}
             className="background-video"
+            style={{ 
+              position: 'absolute', top: 0, left: 0, 
+              opacity: activePlayer === 1 ? '' : 0, 
+              transition: 'opacity 0.4s ease-in-out',
+              zIndex: activePlayer === 1 ? 1 : 0
+            }}
+          />
+          <video 
+            ref={player2Ref}
+            src={videos[p2Index]} 
+            autoPlay={activePlayer === 2}
+            muted 
+            playsInline
+            onEnded={activePlayer === 2 ? handleVideoEnd : undefined}
+            className="background-video"
+            style={{ 
+              position: 'absolute', top: 0, left: 0, 
+              opacity: activePlayer === 2 ? '' : 0, 
+              transition: 'opacity 0.4s ease-in-out',
+              zIndex: activePlayer === 2 ? 1 : 0
+            }}
           />
         </div>
         <div className="hero-center">
